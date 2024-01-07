@@ -1,5 +1,13 @@
 body{
-    background-color: palegoldenrod;
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+font-family: 'Poppins', sans-serif;
+font-family: 'Roboto', sans-serif;
+display: flex;
+flex-direction: column ;
+min-height: 100vh;
+}
+.container{
+    flex: 1;
 }
 .navbar{
     height: 5rem;
@@ -46,4 +54,32 @@ body{
     flex-wrap: wrap;
     justify-content: center;
     align-items: space-evenly;
+}
+.card{
+    border: none !important;
+    margin-bottom: 2rem;
+}
+.card-img-top{
+    border-radius: 1rem !important;
+    width: 100%     !important;
+    object-fit: cover !important;
+
+}
+.card-body{
+    padding: 0 !important;
+}
+.listing-link{
+    text-decoration: none;
+    color: #000;
+}
+.card-img-overlay{
+   opacity: 0 !important;
+}
+.card-img-overlay:hover{
+    opacity: 0.3 !important;
+    background-color: #ebebeb !important;
+}
+.add-btn{
+    background-color: red !important;
+    border: none !important;
 }
