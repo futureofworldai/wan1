@@ -2,7 +2,6 @@ const express=require('express');
 const app=express();
 const mongoose=require('mongoose');
 const path=require('path');
-const port=3000;
 const methodOverride=require('method-override');
 const MONGO_URL="mongodb://127.0.0.1:27017/wanderlust";
 const ejsmate=require('ejs-mate');
@@ -11,6 +10,8 @@ const ejsmate=require('ejs-mate');
 // const { wrap } = require('module');
 const listings=require('./routes/listing.js');
 const reviews=require('./routes/review.js');
+
+const session=require('express-session');
 main()
   .then(()=>{
     console.log('Connected to DB')
