@@ -1,13 +1,16 @@
+
+if(process.env.NODE_ENV != "production"){
+    require('dotenv').config();
+}
+
 const express=require('express');
 const app=express();
 const mongoose=require('mongoose');
 const path=require('path');
 const methodOverride=require('method-override');
-const MONGO_URL="mongodb://127.0.0.1:27017/wanderlust";
+// const MONGO_URL="mongodb://127.0.0.1:27017/wanderlust";
+const dburl=process.env.ATLASDB_URL;
 const ejsmate=require('ejs-mate');
-// const {listingSchema,reviewSchema}=require('./schema.js');
-// const Review=require('./models/review.js');
-// const { wrap } = require('module');
 const passport=require('passport');
 const LocalStrategy=require('passport-local');
 const User=require('./models/user.js');
@@ -16,6 +19,8 @@ const reviewsRouter=require('./routes/review.js');
 const userRouter=require('./routes/user.js');
 
 const session=require('express-session');
+const MongoStore=require('connect-mongo');
+
 const flash=require('connect-flash');
 main()
   .then(()=>{
@@ -26,7 +31,7 @@ main()
   );
 
 async function main(){
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(dburl);
 }
 
 app.set('view engine','ejs');
@@ -36,8 +41,20 @@ app.use(methodOverride('_method'));
 app.engine('ejs',ejsmate);
 app.use(express.static('public'));
 app.use(express.static(path.join(__dirname,'public')));
+const store=MongoStore.create({
+    mongoUrl:dburl,
+    crypto:{
+        secret:process.env.SECRET,
+    },
+    touchAfter:24*60*60,
+});
+store.on("error",()=>{       
+    console.log("Session store error",error);
+});
+
 const sessionOptions={
-    secret: "mysupersecertcode",
+    store,
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie:{
@@ -46,9 +63,11 @@ const sessionOptions={
         httpOnly: true,
     }
 }
-app.get('/',(req,res)=>{    
-    res.send('Hello World');
-});
+// app.get('/',(req,res)=>{    
+//     res.send('Hello World');
+// });
+
+
 app.use(session(sessionOptions));
 app.use(flash());
 

@@ -12,8 +12,8 @@ const listingSchamma=new Schema({
        
     },
     image: {
-        type: String,
-        default: 'https://source.unsplash.com/collection/483251'
+        url: String,
+        filename: String
       },
     price:{
         type:Number,
