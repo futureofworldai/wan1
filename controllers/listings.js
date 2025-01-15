@@ -15,7 +15,7 @@ module.exports.showListing = async (req, res) => {
     .populate({ path: "reviews", populate: { path: "author" } })
     .populate("owner");
   if (!listing) {
-    req.flash("error", "Listing not found!");
+    req.flash("error", "Listings not found!");
     return res.redirect("/listings");
   }
   res.render("listings/show.ejs", { listing });
